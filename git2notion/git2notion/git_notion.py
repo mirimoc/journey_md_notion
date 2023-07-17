@@ -47,6 +47,8 @@ def upload_file(base_page, filename: str, page_title=None):
         child.remove()
     page.children.add_new(TextBlock, title=f"MD5: {hasher.hexdigest()}")
 
+    # TODO: add comparison, if the page is 'newer' than the file
+
     with open(filename, "r", encoding="utf-8") as mdFile:
         upload(mdFile, page)
     return page
