@@ -27,3 +27,7 @@ Drei wesentliche Aufgaben gibt es, die ich realisieren will:
 * Wie importiere ich die Blöcke in die Notion-Seite?
 * Wie überführe ich die Blöcke aus dem Markdown in die Notion-Seite?
 * Wie erstelle ich eine Notion-Seite nur dann, wenn sie noch nicht nicht existiert?
+
+## Tests
+* [ ] Manuelles Erstellen einer Seite auf Notion und überschreiben dieser mit der API 
+* [ ] Konvertieren mit `convert` aus md2notion und upload mit der offiziellen API
