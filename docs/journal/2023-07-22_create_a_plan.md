@@ -45,3 +45,19 @@ Außerdem ist das auch eine gute Übung, um mich im 'Code-Reading' vertraut zu m
   Pakete anfangs importiert werden.
 * Ich brauche bald mal eine CLI, um die Markdown-Dateien zu erstellen. Dafür brauche ich aber wieder Templates für meine
   Markdown bzw. wäre das nice to have.
+
+## Was sind die nächsten Schritte?
+
+* Erstmal die CLI bauen. Scheint wirklich sehr entspannt zu sein, ob mit Go oder Python. Beides ist schnell und
+  unkompliziert umzusetzen.
+* Schwieriger wird es, dass ich mir eine Struktur baue, die immer gleich ist. Also, dass ich immer die gleichen Blöcke
+  nutze. Das ist aber auch nicht so schwer. Ich muss mir nur überlegen, wie ich das am besten mache.
+* Kann ich ja auch mit der Zeit anpassen.
+* Alle Blöcke, die ich brauche. Vielleicht brauche ich mich nicht so sehr mit `notion-py` auseinandersetzen, da die
+  Struktur schon anders ist. Am Ende sind es .json-Files, die ich hochladen muss. Jedoch das mit den Renderer
+  interessiert mich, und ich würde mir das gerne anschauen.
+
+Also:
+* [ ] CLI bauen 
+* [ ] Renderer anschauen und verstehen
+* [ ] Ersten Block bauen und schauen, ob es funktioniert.
