@@ -58,6 +58,6 @@ Außerdem ist das auch eine gute Übung, um mich im 'Code-Reading' vertraut zu m
   interessiert mich, und ich würde mir das gerne anschauen.
 
 Also:
-* [ ] CLI bauen 
+* [ ] CLI bauen
 * [ ] Renderer anschauen und verstehen
 * [ ] Ersten Block bauen und schauen, ob es funktioniert.
