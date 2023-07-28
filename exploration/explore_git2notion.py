@@ -1,12 +1,8 @@
-import md2notion as md2n
-from md2notion.upload import convert
-from notion.client import NotionClient
-from notion.block import PageBlock
-from md2notion.upload import upload
+import mistletoe
+from Renderer import NotionPyRenderer
 from md2notion.upload import convert, uploadBlock
 
 import configparser
-import openai
 from notion_client import Client
 from notion_client.helpers import collect_paginated_api
 from notion_client.helpers import iterate_paginated_api
@@ -34,6 +30,16 @@ notion_token = config.get('NOTION', 'TOKEN')
 database_id = config.get('NOTION_DB', 'DB_ID')
 
 notion = Client(auth=notion_token)
+
+try:
+    with open('../docs/journal/2023-07-27_23:16:27_planning.md', 'r') as fin:
+        rendered = mistletoe.markdown(fin, NotionPyRenderer)
+except:
+    with open('docs/journal/2023-07-27_23:16:27_planning.md', 'r') as fin:
+        rendered = mistletoe.markdown(fin, NotionPyRenderer)
+
+
+
 
 page_ids = list()
 for pages in iterate_paginated_api(notion.databases.query, database_id=database_id):
