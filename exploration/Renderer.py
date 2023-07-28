@@ -221,8 +221,12 @@ class NotionPyRenderer(BaseRenderer):
 
     def render_thematic_break(self, token):
         return {
+<<<<<<< HEAD
             'type': "divider",
             "divider": {}
+=======
+            'type': "divider"
+>>>>>>> origin/main
         }
 
     def render_heading(self, token):
