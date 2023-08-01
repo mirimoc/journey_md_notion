@@ -1,3 +1,4 @@
+import json
 from itertools import chain
 import random
 import re
@@ -221,12 +222,10 @@ class NotionPyRenderer(BaseRenderer):
 
     def render_thematic_break(self, token):
         return {
-<<<<<<< HEAD
             'type': "divider",
-            "divider": {}
-=======
+            "divider": {},
             'type': "divider"
->>>>>>> origin/main
+
         }
 
     def render_heading(self, token):
@@ -236,10 +235,11 @@ class NotionPyRenderer(BaseRenderer):
             level = 3
 
         def blockFunc(blockStr):
+            type = ["heading_1", "heading_2", "heading_3"][level - 1]
             return {
 
-                "type": ["heading 1", "heading 2", "heading 3"][level - 1],
-                ["heading 1", "heading 2", "heading 3"][level - 1]: {
+                "type": type,
+                type: {
                     "rich_text": [{
                         "type": "text",
                         "text": {
@@ -299,7 +299,7 @@ class NotionPyRenderer(BaseRenderer):
         rendered = self.renderMultiple(token.children)
         children = [b for b in rendered if b['type'] != "text"]
 
-        strings = [s['title'] for s in rendered if s['type'] == "text"]
+        strings = [s['content'] for s in rendered if s['type'] == "text"]
         strContent = "".join(strings)
 
         commonAttrs = {
@@ -310,25 +310,71 @@ class NotionPyRenderer(BaseRenderer):
         # Figure out which type of block we need to render
         if re.match(r'\d', token.leader):  # Contains a number
             return {
-                'type': "numbered_list_item",
-                **commonAttrs
+                "type": "numbered_list_item",
+                "numbered_list_item": {
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": strContent,
+                                "link": None
+                            }
+                        }
+                    ],
+                    "color": "default"
+                }
             }
 
         match = re.match(r"^\[([x ])\][ \t]", strContent, re.I)
         if match:
-            # Handle GFM checkboxes as TodoBlocks
+            # TODO: checked have to be dynamic. Right now it is static FALSE
             return {
-                'type': "to_do",
-                'checked': match[1] != " ",
-                **commonAttrs,
-                # We want everything but the checkbox text, so remove
-                # the full match width from the string
-                'title': strContent[len(match[0]):]
+                "type": "to_do",
+                "to_do": {
+                    "rich_text": [{
+                        "type": "text",
+                        "text": {
+                            "content": "Finish Q3 goals",
+                            "link": None
+                        }
+                    }],
+                    "checked": False,
+                    "color": "default",
+                    "children": [{
+                        "type": "paragraph"
+                    }]
+                }
             }
-
+            # Handle GFM checkboxes as TodoBlocks
+            # return {
+            #     'type': "to_do",
+            #     'checked': match[1] != " ",
+            #     **commonAttrs,
+            #     # We want everything but the checkbox text, so remove
+            #     # the full match width from the string
+            #     'title': strContent[len(match[0]):]
+            # }
+        # TODO: Check this out
+        # return {
+        #     'type': "bulleted_list_item",
+        #     **commonAttrs
+        # }
+        # TODO: Idk if the children is always paragraph. For the case, that the item is a link or image, it could fail.
         return {
-            'type': "bulleted_list_item",
-            **commonAttrs
+            "type": "bulleted_list_item",
+            "bulleted_list_item": {
+                "rich_text": [{
+                    "type": "text",
+                    "text": {
+                        "content": strContent,
+                        "link": None
+                    }
+                }],
+                "color": "default",
+                "children": [{
+                    "type": "paragraph"
+                }]
+            }
         }
 
     def render_table(self, token):
@@ -495,6 +541,13 @@ class NotionPyRenderer(BaseRenderer):
 
     def render_inline_equation(self, token):
         return self.renderMultipleToStringAndCombine(token.children, lambda s: f"$${s}$$")
+
+    def __to_json_decorator(func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            return json.dumps(result)
+
+        return wrapper
 
 
 class InlineEquation(SpanToken):
